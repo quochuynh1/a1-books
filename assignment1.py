@@ -34,10 +34,16 @@ def main():
     in_file.close()
 
 def print_books(in_file):
-    for line in in_file:
-        parts = line.strip()
-        print(parts)
-
+    for line_number, line in enumerate(in_file):
+        parts = line.strip().split(",")
+        book_name = parts[0]
+        author = parts[1]
+        number_of_pages = parts[2]
+        book_status = parts[3]
+        if book_status == "u":
+            print(f"*{line_number + 1}. {book_name} by {author} {number_of_pages}")
+        else:
+            print(f"{line_number + 1}. {book_name} by {author} {number_of_pages}")
 
 
 if __name__ == '__main__':
