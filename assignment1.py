@@ -31,6 +31,7 @@ def main():
         else:
             print("Invalid menu choice")
         user_input = input(">>> ").upper()
+    pass # save the books file once
     print("Quitting Program...")
 
 
@@ -40,21 +41,26 @@ def print_books(filename):
     total_unread_books = 0
 
     with open(filename, "r") as in_file:
-        for line_number, line in enumerate(in_file):
 
-            parts = line.strip().split(",")
-            book_name = parts[0]
-            author = parts[1]
-            number_of_pages = int(parts[2])
-            book_status = parts[3]
+        parts = [line.strip().split(",") for line in in_file]
 
-            if book_status == "u":
-                print(f"*{line_number + 1:}. {book_name:<35} by {author:<15} {number_of_pages:} pages")
-                # TODO: format output using max_length for spacing
-                total_unread_pages += number_of_pages
-                total_unread_books += 1
-            else:
-                print(f"{line_number + 1:>2}. {book_name:<35} by {author:<15} {number_of_pages:} pages")
+    max_name_length = max(len(book[0]) for book in parts)
+    max_author_length = max(len(author[1]) for author in parts)
+    max_page_length = max(len(author[2]) for author in parts)
+
+    for line_number, part in enumerate(parts):
+
+        book_name = part[0]
+        author = part[1]
+        number_of_pages = int(part[2])
+        book_status = part[3]
+
+        if book_status == "u":
+            print(f"*{line_number + 1:}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
+            total_unread_pages += number_of_pages
+            total_unread_books += 1
+        else:
+            print(f"{line_number + 1:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
 
     print(f"You still need to read {total_unread_pages} pages in {total_unread_books} books")
 
