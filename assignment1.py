@@ -11,38 +11,39 @@ FILENAME = "books.csv"
 def main():
     "Program to keep track of books to read"""
 
-    print("Books to Read 1.0 by Quoc Huynh")
-    pass
+    with open(FILENAME, "r") as in_file:
 
-    print("Menu: ")
-    print("D - Display books")
-    print("A - Add a new book")
-    print("C - Complete a book")
-    print("Q - Quit")
-    user_input = input(">>> ").upper()
-    print()
-    while user_input != "Q":
-        if user_input == "D":
-            print_books(FILENAME)
-        elif user_input == "A":
-            pass
-        elif user_input == "C":
-            pass
-        else:
-            print("Invalid menu choice")
+        print("Books to Read 1.0 by Quoc Huynh")
+        pass
+
+        print("Menu: ")
+        print("D - Display books")
+        print("A - Add a new book")
+        print("C - Complete a book")
+        print("Q - Quit")
         user_input = input(">>> ").upper()
-    pass # save the books file once
-    print("Quitting Program...")
+        print()
+
+        while user_input != "Q":
+            if user_input == "D":
+                print_books(in_file)
+            elif user_input == "A":
+                pass
+            elif user_input == "C":
+                pass
+            else:
+                print("Invalid menu choice")
+            user_input = input(">>> ").upper()
+        pass # save the books file once
+        print("Quitting Program...")
 
 
-def print_books(filename):
+def print_books(in_file):
     """"""
     total_unread_pages = 0
     total_unread_books = 0
 
-    with open(filename, "r") as in_file:
-
-        parts = [line.strip().split(",") for line in in_file]
+    parts = [line.strip().split(",") for line in in_file]
 
     max_name_length = max(len(book[0]) for book in parts)
     max_author_length = max(len(author[1]) for author in parts)
