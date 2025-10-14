@@ -13,6 +13,8 @@ def main():
 
     with open(FILENAME, "r") as in_file:
 
+        book_data = [line.strip().split(",") for line in in_file]
+
         print("Books to Read 1.0 by Quoc Huynh")
         pass
 
@@ -26,7 +28,7 @@ def main():
 
         while user_input != "Q":
             if user_input == "D":
-                print_books(in_file)
+                print_books(in_file, book_data)
             elif user_input == "A":
                 pass
             elif user_input == "C":
@@ -38,18 +40,16 @@ def main():
         print("Quitting Program...")
 
 
-def print_books(in_file):
+def print_books(in_file, book_data):
     """"""
     total_unread_pages = 0
     total_unread_books = 0
 
-    parts = [line.strip().split(",") for line in in_file]
+    max_name_length = max(len(book[0]) for book in book_data)
+    max_author_length = max(len(author[1]) for author in book_data)
+    max_page_length = max(len(author[2]) for author in book_data)
 
-    max_name_length = max(len(book[0]) for book in parts)
-    max_author_length = max(len(author[1]) for author in parts)
-    max_page_length = max(len(author[2]) for author in parts)
-
-    for line_number, part in enumerate(parts):
+    for line_number, part in enumerate(book_data):
 
         book_name = part[0]
         author = part[1]
