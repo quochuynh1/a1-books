@@ -82,20 +82,19 @@ def add_books(filename):
             print("Input can not be blank")
             author = input("Author: ").title().strip()
 
-        # number_of_pages = int(input("Number of Pages: "))
-        # is_valid_input = False
-        # while not is_valid_input:
-        #     try:
-        #         if number_of_pages <= 0:
-        #             print("Number must be > 0")
-        #         else:
-        #             is_valid_input = True
-        #     except ValueError:
-        #         print("Invalid input - please enter a valid number")
-        #     number_of_pages = int(input("Number of Pages: "))
+        is_valid_input = False
+        while not is_valid_input:
+            try:
+                number_of_pages = int(input("Number of Pages: "))
+                if number_of_pages <= 0:
+                    print("Number must be > 0")
+                else:
+                    is_valid_input = True
+            except ValueError:
+                print("Invalid input - please enter a valid number")
 
-        print(f"{title} by {author} (number_of_pages) added.")
-        print(f"{title},{author}", file=out_file)
+        print(f"{title} by {author} ({number_of_pages} pages) added.")
+        print(f"{title},{author},{number_of_pages}", file=out_file)
 
 
 
