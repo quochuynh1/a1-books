@@ -16,7 +16,7 @@ def main():
         book_data = [line.strip().split(",") for line in in_file]
 
         print("Books to Read 1.0 by Quoc Huynh")
-        pass # no. of books inside in_file (e.g., "4 books loaded.")
+        pass  # no. of books inside in_file (e.g., "4 books loaded.")
 
         print("Menu: ")
         print("D - Display books")
@@ -40,7 +40,7 @@ def main():
             print("C - Complete a book")
             print("Q - Quit")
             user_input = input(">>> ").upper()
-        pass # save the books file once
+        pass  # save the books file once
         print("Quitting Program...")
 
 
@@ -61,41 +61,48 @@ def print_books(book_data):
         book_status = part[3]
 
         if book_status == "u":
-            print(f"*{line_number + 1:}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
+            print(
+                f"*{line_number + 1:}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
             total_unread_pages += number_of_pages
             total_unread_books += 1
         else:
-            print(f"{line_number + 1:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
+            print(
+                f"{line_number + 1:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
 
     print(f"You still need to read {total_unread_pages} pages in {total_unread_books} books")
 
+
 def add_books(filename):
-    with open(filename, "a") as out_file:
-
+    """Add new book data on top of existing book data with input validation"""
+    title = input("Title: ").title().strip()
+    while title == "":
+        print("Input can not be blank")
         title = input("Title: ").title().strip()
-        while title == "":
-            print("Input can not be blank")
-            title = input("Title: ").title().strip()
 
+    author = input("Author: ").title().strip()
+    while author == "":
+        print("Input can not be blank")
         author = input("Author: ").title().strip()
-        while author == "":
-            print("Input can not be blank")
-            author = input("Author: ").title().strip()
 
-        is_valid_input = False
-        while not is_valid_input:
-            try:
-                number_of_pages = int(input("Number of Pages: "))
-                if number_of_pages <= 0:
-                    print("Number must be > 0")
-                else:
-                    is_valid_input = True
-            except ValueError:
-                print("Invalid input - please enter a valid number")
-
+    is_valid_input = False
+    while not is_valid_input:
+        try:
+            number_of_pages = int(input("Number of Pages: "))
+            if number_of_pages <= 0:
+                print("Number must be > 0")
+            else:
+                is_valid_input = True
+        except ValueError:
+            print("Invalid input - please enter a valid number")
         print(f"{title} by {author} ({number_of_pages} pages) added.")
-        print(f"{title},{author},{number_of_pages}", file=out_file)
 
+    new_book_data = f"{title},{author},{number_of_pages}, {"u"}\n"
+
+    with open(filename, "r") as in_file:
+        existing_data = in_file.read()
+
+    with open(filename, "w") as out_file:
+        out_file.write(new_book_data + existing_data)
 
 
 if __name__ == '__main__':
