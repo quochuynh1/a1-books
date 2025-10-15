@@ -1,8 +1,8 @@
 """
 CP1404 Assignment 1 - Books to Read
-Name:
-Date Started:
-GitHub URL:
+Name: Quoc Huynh
+Date Started: 13/10/25
+GitHub URL: https://github.com/cp1404-students/a1-books-quochuynh1
 """
 
 FILENAME = "books.csv"
@@ -16,7 +16,7 @@ def main():
         book_data = [line.strip().split(",") for line in in_file]
 
         print("Books to Read 1.0 by Quoc Huynh")
-        pass
+        pass # no. of books inside in_file (e.g., "4 books loaded.")
 
         print("Menu: ")
         print("D - Display books")
@@ -24,24 +24,28 @@ def main():
         print("C - Complete a book")
         print("Q - Quit")
         user_input = input(">>> ").upper()
-        print()
 
         while user_input != "Q":
             if user_input == "D":
-                print_books(in_file, book_data)
+                print_books(book_data)
             elif user_input == "A":
                 pass
             elif user_input == "C":
                 pass
             else:
                 print("Invalid menu choice")
+            print("Menu: ")
+            print("D - Display books")
+            print("A - Add a new book")
+            print("C - Complete a book")
+            print("Q - Quit")
             user_input = input(">>> ").upper()
         pass # save the books file once
         print("Quitting Program...")
 
 
-def print_books(in_file, book_data):
-    """"""
+def print_books(book_data):
+    """Print the book data as well as how many pages and books are still left to be read"""
     total_unread_pages = 0
     total_unread_books = 0
 
