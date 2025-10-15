@@ -5,7 +5,7 @@ Date Started: 13/10/25
 GitHub URL: https://github.com/cp1404-students/a1-books-quochuynh1
 """
 
-FILENAME = "books.csv"
+FILENAME = "test_books.csv"
 
 
 def main():
@@ -29,7 +29,7 @@ def main():
             if user_input == "D":
                 print_books(book_data)
             elif user_input == "A":
-                pass
+                add_books(FILENAME)
             elif user_input == "C":
                 pass
             else:
@@ -68,6 +68,35 @@ def print_books(book_data):
             print(f"{line_number + 1:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
 
     print(f"You still need to read {total_unread_pages} pages in {total_unread_books} books")
+
+def add_books(filename):
+    with open(filename, "a") as out_file:
+
+        title = input("Title: ").title().strip()
+        while title == "":
+            print("Input can not be blank")
+            title = input("Title: ").title().strip()
+
+        author = input("Author: ").title().strip()
+        while author == "":
+            print("Input can not be blank")
+            author = input("Author: ").title().strip()
+
+        # number_of_pages = int(input("Number of Pages: "))
+        # is_valid_input = False
+        # while not is_valid_input:
+        #     try:
+        #         if number_of_pages <= 0:
+        #             print("Number must be > 0")
+        #         else:
+        #             is_valid_input = True
+        #     except ValueError:
+        #         print("Invalid input - please enter a valid number")
+        #     number_of_pages = int(input("Number of Pages: "))
+
+        print(f"{title} by {author} (number_of_pages) added.")
+        print(f"{title},{author}", file=out_file)
+
 
 
 if __name__ == '__main__':
