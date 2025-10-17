@@ -30,7 +30,8 @@ def main():
         elif user_input == "A":
             add_books(FILENAME)
         elif user_input == "C":
-            pass
+            book_data = load_books(FILENAME)
+            complete_books(FILENAME, book_data)
         else:
             print("Invalid menu choice")
         print("Menu: ")
@@ -42,10 +43,13 @@ def main():
     pass  # save the books file once
     print("Quitting Program...")
 
+
 def load_books(filename):
+    """Load book information as a list of lists for other functions to access"""
     with open(FILENAME, "r") as in_file:
         book_data = [line.strip().split(",") for line in in_file]
         return book_data
+
 
 def print_books(book_data):
     """Print the book data as well as how many pages and books are still left to be read"""
@@ -77,10 +81,10 @@ def print_books(book_data):
 
 def add_books(filename):
     """Add new book data on top of existing book data with input validation"""
-    title = input("Title: ").title().strip()
+    title = input("Title: ").strip()
     while title == "":
         print("Input can not be blank")
-        title = input("Title: ").title().strip()
+        title = input("Title: ").strip()
 
     author = input("Author: ").title().strip()
     while author == "":
@@ -95,11 +99,11 @@ def add_books(filename):
                 print("Number must be > 0")
             else:
                 is_valid_input = True
+                print(f"{title} by {author} ({number_of_pages} pages) added.")
         except ValueError:
             print("Invalid input - please enter a valid number")
-        print(f"{title} by {author} ({number_of_pages} pages) added.")
 
-    new_book_data = f"{title},{author},{number_of_pages},{"u"}"
+    new_book_data = f"{title},{author},{number_of_pages},{"u"}\n"
 
     with open(filename, "r") as in_file:
         existing_data = in_file.read()
@@ -108,6 +112,44 @@ def add_books(filename):
         out_file.write(new_book_data + existing_data)
 
     return out_file
+
+
+def complete_books(filename, book_data):
+    """Change status of book to completed with input validation"""
+    print_books(book_data)
+    print("Enter the number of a book to make as completed")
+
+    is_valid_input = False
+    while not is_valid_input:
+        try:
+            number = int(input(">>> "))
+            if number <= 0:
+                print("Number must be > 0")
+            else:
+                book_record = book_data[number - 1]
+                book_to_complete = book_record[0]
+                author = book_record[1]
+                book_status = book_record[3]
+
+                # with open(filename, "r") as in_file:
+                #     existing_data = in_file.read()
+
+                if book_status == "c":
+                    print("That book is already completed")
+                else:
+                    book_record[3] = "c"
+                    print(f"{book_to_complete} by {author} Completed!")
+
+                with open(filename, "w") as out_file:
+                    for record in book_data:
+                        out_file.write(",".join(record) + "\n")
+
+                is_valid_input = True
+        except ValueError:
+            print("Invalid input - please enter a valid number")
+        except IndexError:
+            print("Invalid book number")
+
 
 if __name__ == '__main__':
     main()
