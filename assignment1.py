@@ -11,38 +11,41 @@ FILENAME = "test_books.csv"
 def main():
     "Program to keep track of books to read"""
 
-    with open(FILENAME, "r") as in_file:
+    book_data = load_books(FILENAME)
 
-        book_data = [line.strip().split(",") for line in in_file]
+    print("Books to Read 1.0 by Quoc Huynh")
+    print(f"{len(book_data)} books loaded.")
 
-        print("Books to Read 1.0 by Quoc Huynh")
-        pass  # no. of books inside in_file (e.g., "4 books loaded.")
+    print("Menu: ")
+    print("D - Display books")
+    print("A - Add a new book")
+    print("C - Complete a book")
+    print("Q - Quit")
+    user_input = input(">>> ").upper()
 
+    while user_input != "Q":
+        if user_input == "D":
+            book_data = load_books(FILENAME)
+            print_books(book_data)
+        elif user_input == "A":
+            add_books(FILENAME)
+        elif user_input == "C":
+            pass
+        else:
+            print("Invalid menu choice")
         print("Menu: ")
         print("D - Display books")
         print("A - Add a new book")
         print("C - Complete a book")
         print("Q - Quit")
         user_input = input(">>> ").upper()
+    pass  # save the books file once
+    print("Quitting Program...")
 
-        while user_input != "Q":
-            if user_input == "D":
-                print_books(book_data)
-            elif user_input == "A":
-                add_books(FILENAME)
-            elif user_input == "C":
-                pass
-            else:
-                print("Invalid menu choice")
-            print("Menu: ")
-            print("D - Display books")
-            print("A - Add a new book")
-            print("C - Complete a book")
-            print("Q - Quit")
-            user_input = input(">>> ").upper()
-        pass  # save the books file once
-        print("Quitting Program...")
-
+def load_books(filename):
+    with open(FILENAME, "r") as in_file:
+        book_data = [line.strip().split(",") for line in in_file]
+        return book_data
 
 def print_books(book_data):
     """Print the book data as well as how many pages and books are still left to be read"""
@@ -96,7 +99,7 @@ def add_books(filename):
             print("Invalid input - please enter a valid number")
         print(f"{title} by {author} ({number_of_pages} pages) added.")
 
-    new_book_data = f"{title},{author},{number_of_pages}, {"u"}\n"
+    new_book_data = f"{title},{author},{number_of_pages},{"u"}"
 
     with open(filename, "r") as in_file:
         existing_data = in_file.read()
@@ -104,6 +107,7 @@ def add_books(filename):
     with open(filename, "w") as out_file:
         out_file.write(new_book_data + existing_data)
 
+    return out_file
 
 if __name__ == '__main__':
     main()
