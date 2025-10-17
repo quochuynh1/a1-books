@@ -76,7 +76,10 @@ def print_books(book_data):
             print(
                 f"{line_number + 1:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
 
-    print(f"You still need to read {total_unread_pages} pages in {total_unread_books} books")
+    if total_unread_books == 0:
+        print("No books left to read. Why not add a new book?")
+    else:
+        print(f"You still need to read {total_unread_pages} pages in {total_unread_books} books")
 
 
 def add_books(filename):
@@ -130,9 +133,6 @@ def complete_books(filename, book_data):
                 book_to_complete = book_record[0]
                 author = book_record[1]
                 book_status = book_record[3]
-
-                # with open(filename, "r") as in_file:
-                #     existing_data = in_file.read()
 
                 if book_status == "c":
                     print("That book is already completed")
