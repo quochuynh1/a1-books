@@ -5,7 +5,7 @@ Date Started: 13/10/25
 GitHub URL: https://github.com/cp1404-students/a1-books-quochuynh1
 """
 
-FILENAME = "test_books.csv"
+FILENAME = "books.csv"
 
 
 def main():
@@ -40,8 +40,9 @@ def main():
         print("C - Complete a book")
         print("Q - Quit")
         user_input = input(">>> ").upper()
-    pass  # save the books file once
-    print("Quitting Program...")
+    book_data = load_books(FILENAME)
+    save_books(FILENAME, book_data)
+    print('"So many books, so little time. Frank Zappa"')
 
 
 def load_books(filename):
@@ -49,6 +50,13 @@ def load_books(filename):
     with open(FILENAME, "r") as in_file:
         book_data = [line.strip().split(",") for line in in_file]
         return book_data
+
+
+def save_books(filename, book_data):
+    with open(filename, "w") as out_file:
+        for record in book_data:
+            out_file.write(",".join(record) + "\n")
+        print(f"{len(book_data)} books saved to {filename}")
 
 
 def print_books(book_data):
@@ -73,7 +81,8 @@ def print_books(book_data):
             total_unread_pages += number_of_pages
             total_unread_books += 1
         else:
-            print(f"{line_number + 1:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
+            print(
+                f"{line_number + 1:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
 
     if total_unread_books == 0:
         print("No books left to read. Why not add a new book?")
