@@ -73,8 +73,7 @@ def print_books(book_data):
             total_unread_pages += number_of_pages
             total_unread_books += 1
         else:
-            print(
-                f"{line_number + 1:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
+            print(f"{line_number + 1:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
 
     if total_unread_books == 0:
         print("No books left to read. Why not add a new book?")
@@ -119,8 +118,12 @@ def add_books(filename):
 
 def complete_books(filename, book_data):
     """Change status of book to completed with input validation"""
-    print_books(book_data)
-    print("Enter the number of a book to make as completed")
+    if all(book[3] == "c" for book in book_data):
+        print("No unread books - well done!")
+        return
+    else:
+        print_books(book_data)
+        print("Enter the number of a book to make as completed")
 
     is_valid_input = False
     while not is_valid_input:
