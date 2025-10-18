@@ -47,12 +47,13 @@ def main():
 
 def load_books(filename):
     """Load book information as a list of lists for other functions to access"""
-    with open(FILENAME, "r") as in_file:
+    with open(filename, "r") as in_file:
         book_data = [line.strip().split(",") for line in in_file]
         return book_data
 
 
 def save_books(filename, book_data):
+    """Save all books to books.csv upon quitting program"""
     with open(filename, "w") as out_file:
         for record in book_data:
             out_file.write(",".join(record) + "\n")
@@ -111,17 +112,15 @@ def add_books(filename):
             else:
                 is_valid_input = True
                 print(f"{title} by {author} ({number_of_pages} pages) added.")
+                new_book_data = f"{title},{author},{number_of_pages},{"u"}\n"
+
+                with open(filename, "r") as in_file:
+                    existing_data = in_file.read()
+
+                with open(filename, "w") as out_file:
+                    out_file.write(new_book_data + existing_data)
         except ValueError:
             print("Invalid input - please enter a valid number")
-
-    new_book_data = f"{title},{author},{number_of_pages},{"u"}\n"
-
-    with open(filename, "r") as in_file:
-        existing_data = in_file.read()
-
-    with open(filename, "w") as out_file:
-        out_file.write(new_book_data + existing_data)
-
     return out_file
 
 
