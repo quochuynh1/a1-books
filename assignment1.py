@@ -11,7 +11,7 @@ FILENAME = "books.csv"
 def main():
     "Program to keep track of books to read"""
 
-    book_data = load_books(FILENAME)
+    book_data = load_book_data(FILENAME)
 
     print("Books to Read 1.0 by Quoc Huynh")
     print(f"{len(book_data)} books loaded.")
@@ -25,13 +25,11 @@ def main():
 
     while user_input != "Q":
         if user_input == "D":
-            book_data = load_books(FILENAME)
             print_books(book_data)
         elif user_input == "A":
-            add_books(FILENAME)
+            add_books(book_data)
         elif user_input == "C":
-            book_data = load_books(FILENAME)
-            complete_books(FILENAME, book_data)
+            complete_books(book_data)
         else:
             print("Invalid menu choice")
         print("Menu: ")
@@ -40,12 +38,11 @@ def main():
         print("C - Complete a book")
         print("Q - Quit")
         user_input = input(">>> ").upper()
-    book_data = load_books(FILENAME)
     save_books(FILENAME, book_data)
     print('"So many books, so little time. Frank Zappa"')
 
 
-def load_books(filename):
+def load_book_data(filename):
     """Load book information as a list of lists for other functions to access"""
     with open(filename, "r") as in_file:
         book_data = [line.strip().split(",") for line in in_file]
@@ -69,6 +66,8 @@ def print_books(book_data):
     max_author_length = max(len(author[1]) for author in book_data)
     max_page_length = max(len(author[2]) for author in book_data)
 
+    book_data.sort(key=lambda b: (b[1], b[0])) # Sort order by which books are printed (alphabetically - author, title)
+
     for line_number, part in enumerate(book_data):
 
         book_name = part[0]
@@ -91,8 +90,8 @@ def print_books(book_data):
         print(f"You still need to read {total_unread_pages} pages in {total_unread_books} books")
 
 
-def add_books(filename):
-    """Add new book data on top of existing book data with input validation"""
+def add_books(book_data):
+    """Add new book data"""
     title = input("Title: ").strip()
     while title == "":
         print("Input can not be blank")
@@ -111,20 +110,13 @@ def add_books(filename):
                 print("Number must be > 0")
             else:
                 is_valid_input = True
+                book_data.append([title, author, str(number_of_pages), "u"])
                 print(f"{title} by {author} ({number_of_pages} pages) added.")
-                new_book_data = f"{title},{author},{number_of_pages},{"u"}\n"
-
-                with open(filename, "r") as in_file:
-                    existing_data = in_file.read()
-
-                with open(filename, "w") as out_file:
-                    out_file.write(new_book_data + existing_data)
         except ValueError:
             print("Invalid input - please enter a valid number")
-    return out_file
 
 
-def complete_books(filename, book_data):
+def complete_books(book_data):
     """Change status of book to completed with input validation"""
     if all(book[3] == "c" for book in book_data):
         print("No unread books - well done!")
@@ -150,10 +142,6 @@ def complete_books(filename, book_data):
                 else:
                     book_record[3] = "c"
                     print(f"{book_to_complete} by {author} Completed!")
-
-                with open(filename, "w") as out_file:
-                    for record in book_data:
-                        out_file.write(",".join(record) + "\n")
 
                 is_valid_input = True
         except ValueError:
