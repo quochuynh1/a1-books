@@ -144,24 +144,28 @@ def complete_books(book_data):
     else:
         print_books(book_data)
         print("Enter the number of a book to mark as completed")
-        number = get_valid_int(">>> ")
-        mark_book_as_completed(book_data, number)
+        mark_book_as_completed(book_data)
 
 
-def mark_book_as_completed(book_data, number):
-    """Mark the book the user indicates as completed if not already"""
-    try:
-        book_record = book_data[number - 1]
-        book_to_complete = book_record[0]
-        author = book_record[1]
-        book_status = book_record[3]
-        if book_status == COMPLETED:
-            print("That book is already completed")
-        else:
-            book_record[3] = COMPLETED
-            print(f"{book_to_complete} by {author} completed!")
-    except IndexError:
-        print("Invalid book number")
+def mark_book_as_completed(book_data):
+    """Mark the book the user indicates as completed if in range and not already"""
+    is_valid_input = False
+    while not is_valid_input:
+        try:
+            number = get_valid_int(">>> ")
+
+            book_record = book_data[number - 1]
+            book_to_complete = book_record[0]
+            author = book_record[1]
+            book_status = book_record[3]
+            if book_status == COMPLETED:
+                print("That book is already completed")
+            else:
+                book_record[3] = COMPLETED
+                print(f"{book_to_complete} by {author} completed!")
+                is_valid_input = True
+        except IndexError:
+            print("Invalid book number")
 
 
 def no_unread_books(book_data):
