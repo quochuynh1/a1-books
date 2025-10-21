@@ -94,19 +94,10 @@ def add_books(book_data):
     """Add new book data"""
     title = get_non_empty_input("Title:")
     author = get_non_empty_input("Author: ")
+    number_of_pages = get_valid_int("Number of Pages: ")
 
-    is_valid_input = False
-    while not is_valid_input:
-        try:
-            number_of_pages = int(input("Number of Pages: "))
-            if number_of_pages <= 0:
-                print("Number must be > 0")
-            else:
-                is_valid_input = True
-                book_data.append([title, author, str(number_of_pages), "u"])
-                print(f"{title} by {author} ({number_of_pages} pages) added.")
-        except ValueError:
-            print("Invalid input - please enter a valid number")
+    book_data.append([title, author, str(number_of_pages), "u"])
+    print(f"{title} by {author} ({number_of_pages} pages) added.")
 
 
 def get_non_empty_input(prompt) -> str:
@@ -116,6 +107,22 @@ def get_non_empty_input(prompt) -> str:
         print("Input can not be blank")
         user_input = input(prompt).strip()
     return user_input
+
+
+def get_valid_int(prompt):
+    """Prompt the user to enter a number until it is valid"""
+    is_valid_input = False
+    while not is_valid_input:
+        try:
+            number = int(input(prompt))
+            if number <= 0:
+                print("Number must be > 0")
+            else:
+                is_valid_input = True
+                return number
+        except ValueError:
+            print("Invalid input - please enter a valid number")
+    return None
 
 
 def complete_books(book_data):
