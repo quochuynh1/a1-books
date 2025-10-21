@@ -126,37 +126,38 @@ def get_valid_int(prompt):
 
 
 def complete_books(book_data):
-    """Change status of book to completed with input validation"""
-    if all(book[3] == "c" for book in book_data):
-        print("No unread books - well done!")
+    """Prompt the user to select a book to mark as completed and update it's status accordingly"""
+    if no_unread_books(book_data):
         return
     else:
         print_books(book_data)
-        print("Enter the number of a book to make as completed")
+        print("Enter the number of a book to mark as completed")
+        number = get_valid_int(">>> ")
+        mark_book_as_completed(book_data, number)
 
-    is_valid_input = False
-    while not is_valid_input:
-        try:
-            number = int(input(">>> "))
-            if number <= 0:
-                print("Number must be > 0")
-            else:
-                book_record = book_data[number - 1]
-                book_to_complete = book_record[0]
-                author = book_record[1]
-                book_status = book_record[3]
 
-                if book_status == "c":
-                    print("That book is already completed")
-                else:
-                    book_record[3] = "c"
-                    print(f"{book_to_complete} by {author} Completed!")
+def mark_book_as_completed(book_data, number):
+    """Mark the book the user indicates as completed if not already"""
+    try:
+        book_record = book_data[number - 1]
+        book_to_complete = book_record[0]
+        author = book_record[1]
+        book_status = book_record[3]
+        if book_status == "c":
+            print("That book is already completed")
+        else:
+            book_record[3] = "c"
+            print(f"{book_to_complete} by {author} Completed!")
+    except IndexError:
+        print("Invalid book number")
 
-                is_valid_input = True
-        except ValueError:
-            print("Invalid input - please enter a valid number")
-        except IndexError:
-            print("Invalid book number")
+
+def no_unread_books(book_data):
+    """Check if all books in the list are already completed"""
+    if all(book[3] == "c" for book in book_data):
+        print("No unread books - well done!")
+        return True
+    return False
 
 
 if __name__ == '__main__':
