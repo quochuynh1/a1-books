@@ -59,16 +59,15 @@ def save_books(filename, book_data):
 
 def print_books(book_data):
     """Print the book data as well as how many pages and books are still left to be read"""
-    total_unread_pages = 0
-    total_unread_books = 0
-
-    total_unread_books, total_unread_pages = format_print_books(book_data, total_unread_books, total_unread_pages)
-
+    total_unread_books, total_unread_pages = format_print_books(book_data)
     determine_no_more_books_to_read(total_unread_books, total_unread_pages)
 
 
-def format_print_books(book_data, total_unread_books: int, total_unread_pages: int) -> tuple[int, int]:
+def format_print_books(book_data):
     """Format the way the books print so that they align neatly"""
+    total_unread_pages = 0
+    total_unread_books = 0
+
     max_name_length = max(len(book[0]) for book in book_data)
     max_author_length = max(len(author[1]) for author in book_data)
     max_page_length = max(len(author[2]) for author in book_data)
