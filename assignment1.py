@@ -62,6 +62,13 @@ def print_books(book_data):
     total_unread_pages = 0
     total_unread_books = 0
 
+    total_unread_books, total_unread_pages = format_print_books(book_data, total_unread_books, total_unread_pages)
+
+    determine_no_more_books_to_read(total_unread_books, total_unread_pages)
+
+
+def format_print_books(book_data, total_unread_books: int, total_unread_pages: int) -> tuple[int, int]:
+    """Format the way the books print so that they align neatly"""
     max_name_length = max(len(book[0]) for book in book_data)
     max_author_length = max(len(author[1]) for author in book_data)
     max_page_length = max(len(author[2]) for author in book_data)
@@ -83,7 +90,11 @@ def print_books(book_data):
         else:
             print(
                 f"{line_number + 1:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
+    return total_unread_books, total_unread_pages
 
+
+def determine_no_more_books_to_read(total_unread_books: int, total_unread_pages: int):
+    """Notify if there are no more books to read and suggest to add a new book"""
     if total_unread_books == 0:
         print("No books left to read. Why not add a new book?")
     else:
@@ -92,8 +103,8 @@ def print_books(book_data):
 
 def add_books(book_data):
     """Add new book data"""
-    title = get_non_empty_input("Title:")
-    author = get_non_empty_input("Author: ")
+    title = get_non_empty_input("Title: ")
+    author = get_non_empty_input("Author: ").title()
     number_of_pages = get_valid_int("Number of Pages: ")
 
     book_data.append([title, author, str(number_of_pages), "u"])
@@ -126,7 +137,7 @@ def get_valid_int(prompt):
 
 
 def complete_books(book_data):
-    """Prompt the user to select a book to mark as completed and update it's status accordingly"""
+    """Prompt the user to select a book to mark as completed and update its status accordingly"""
     if no_unread_books(book_data):
         return
     else:
