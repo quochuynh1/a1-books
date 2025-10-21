@@ -6,6 +6,8 @@ GitHub URL: https://github.com/cp1404-students/a1-books-quochuynh1
 """
 
 FILENAME = "books.csv"
+COMPLETED = "c"
+UNREAD = "u"
 
 
 def main():
@@ -81,7 +83,7 @@ def format_print_books(book_data):
         number_of_pages = int(part[2])
         book_status = part[3]
 
-        if book_status == "u":
+        if book_status == UNREAD:
             print(
                 f"*{line_number + 1:}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
             total_unread_pages += number_of_pages
@@ -106,7 +108,7 @@ def add_books(book_data):
     author = get_non_empty_input("Author: ").title()
     number_of_pages = get_valid_int("Number of Pages: ")
 
-    book_data.append([title, author, str(number_of_pages), "u"])
+    book_data.append([title, author, str(number_of_pages), UNREAD])
     print(f"{title} by {author} ({number_of_pages} pages) added.")
 
 
@@ -153,18 +155,18 @@ def mark_book_as_completed(book_data, number):
         book_to_complete = book_record[0]
         author = book_record[1]
         book_status = book_record[3]
-        if book_status == "c":
+        if book_status == COMPLETED:
             print("That book is already completed")
         else:
-            book_record[3] = "c"
-            print(f"{book_to_complete} by {author} Completed!")
+            book_record[3] = COMPLETED
+            print(f"{book_to_complete} by {author} completed!")
     except IndexError:
         print("Invalid book number")
 
 
 def no_unread_books(book_data):
     """Check if all books in the list are already completed"""
-    if all(book[3] == "c" for book in book_data):
+    if all(book[3] == COMPLETED for book in book_data):
         print("No unread books - well done!")
         return True
     return False
