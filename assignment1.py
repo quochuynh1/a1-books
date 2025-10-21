@@ -66,7 +66,7 @@ def print_books(book_data):
     max_author_length = max(len(author[1]) for author in book_data)
     max_page_length = max(len(author[2]) for author in book_data)
 
-    book_data.sort(key=lambda b: (b[1], b[0])) # Sort order by which books are printed (alphabetically - author, title)
+    book_data.sort(key=lambda b: (b[1], b[0]))  # Sort order by which books are printed (alphabetically - author, title)
 
     for line_number, part in enumerate(book_data):
 
@@ -92,15 +92,8 @@ def print_books(book_data):
 
 def add_books(book_data):
     """Add new book data"""
-    title = input("Title: ").strip()
-    while title == "":
-        print("Input can not be blank")
-        title = input("Title: ").strip()
-
-    author = input("Author: ").title().strip()
-    while author == "":
-        print("Input can not be blank")
-        author = input("Author: ").title().strip()
+    title = get_non_empty_input("Title:")
+    author = get_non_empty_input("Author: ")
 
     is_valid_input = False
     while not is_valid_input:
@@ -114,6 +107,15 @@ def add_books(book_data):
                 print(f"{title} by {author} ({number_of_pages} pages) added.")
         except ValueError:
             print("Invalid input - please enter a valid number")
+
+
+def get_non_empty_input(prompt) -> str:
+    """Prompt the user to enter input until it is not empty. """
+    user_input = input(prompt).strip()
+    while user_input == "":
+        print("Input can not be blank")
+        user_input = input(prompt).strip()
+    return user_input
 
 
 def complete_books(book_data):
