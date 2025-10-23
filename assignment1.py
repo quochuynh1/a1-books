@@ -72,11 +72,11 @@ def format_print_books(book_data):
 
     max_name_length = max(len(book[0]) for book in book_data)
     max_author_length = max(len(author[1]) for author in book_data)
-    max_page_length = max(len(author[2]) for author in book_data)
+    max_page_length = max(len(page[2]) for page in book_data)
 
     book_data.sort(key=lambda b: (b[1], b[0]))  # Sort order by which books are printed (alphabetically - author, title)
 
-    for line_number, part in enumerate(book_data):
+    for line_number, part in enumerate(book_data, 1):
 
         book_name = part[0]
         author = part[1]
@@ -85,12 +85,12 @@ def format_print_books(book_data):
 
         if book_status == UNREAD:
             print(
-                f"*{line_number + 1:}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
+                f"*{line_number:}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
             total_unread_pages += number_of_pages
             total_unread_books += 1
         else:
             print(
-                f"{line_number + 1:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
+                f"{line_number:>2}. {book_name:{max_name_length}} by {author:{max_author_length}} {number_of_pages:{max_page_length}} pages")
     return total_unread_books, total_unread_pages
 
 
