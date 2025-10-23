@@ -18,8 +18,8 @@ error handling. The project was developed closely following the CP1404 style gui
 
 1. How long did the entire project (assignment 1) take you?
 
-It took me four days to complete the main functionality of the program. It took me another 4 days to fix up the minor
-details and refactor all the functions for SRP so overall, assignment 1 took 8 days. 
+It took me four days to complete the main functionality of the program. It took me another 5 days to fix up the minor
+details and refactor all the functions for SRP so overall, assignment 1 took 9 days. 
 
 2. What do you plan to do differently in your development process for assignment 2?
 

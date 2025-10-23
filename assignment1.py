@@ -11,7 +11,7 @@ UNREAD = "u"
 
 
 def main():
-    "Program to keep track of books to read"""
+    """Program to keep track of books to read"""
 
     book_data = load_book_data(FILENAME)
 
