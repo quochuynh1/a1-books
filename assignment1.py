@@ -23,14 +23,14 @@ def main():
     print("A - Add a new book")
     print("C - Complete a book")
     print("Q - Quit")
-    user_input = input(">>> ").upper()
+    choice = input(">>> ").upper()
 
-    while user_input != "Q":
-        if user_input == "D":
+    while choice != "Q":
+        if choice == "D":
             print_books(book_data)
-        elif user_input == "A":
+        elif choice == "A":
             add_books(book_data)
-        elif user_input == "C":
+        elif choice == "C":
             complete_books(book_data)
         else:
             print("Invalid menu choice")
@@ -39,7 +39,7 @@ def main():
         print("A - Add a new book")
         print("C - Complete a book")
         print("Q - Quit")
-        user_input = input(">>> ").upper()
+        choice = input(">>> ").upper()
     save_books(FILENAME, book_data)
     print('"So many books, so little time. Frank Zappa"')
 
